@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans antialiased text-slate-800 dark:text-slate-100;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-400 ring-offset-2 ring-offset-transparent;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply relative rounded-3xl border border-white/30 bg-white/60 shadow-glass backdrop-blur-xl
+      dark:border-white/10 dark:bg-slate-900/60;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200;
+  }
+
+  .field-error {
+    @apply mt-1.5 flex items-center gap-1 text-sm font-medium text-rose-600 dark:text-rose-400;
+  }
+}
+
+@layer utilities {
+  .bg-mesh {
+    background-image:
+      radial-gradient(at 15% 20%, rgba(101, 82, 245, 0.35) 0px, transparent 50%),
+      radial-gradient(at 85% 10%, rgba(56, 189, 248, 0.25) 0px, transparent 50%),
+      radial-gradient(at 50% 90%, rgba(167, 139, 250, 0.3) 0px, transparent 50%);
+  }
+}
