@@ -1,0 +1,482 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
+/* ---------------------------------------------------
+   Token system
+   Subject: an accessibility "debugger" — the design's
+   job is to make invisible ARIA state visible.
+   --------------------------------------------------- */
+:root {
+  --ink: #0a1526;
+  --surface: #0f1e35;
+  --surface-raised: #14274a;
+  --border: #2a4066;
+  --border-soft: #1c3357;
+  --text: #f7f9fc;
+  --text-muted: #a9b8d1;
+  --text-faint: #6d80a3;
+
+  --scratch: #6fa8f0;
+  --scratch-dim: #6fa8f02b;
+  --shadcn: #ffffff;
+  --shadcn-dim: #ffffff1f;
+  --focus: #ffffff;
+
+  --font-display: "IBM Plex Mono", "SFMono-Regular", monospace;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 3rem 1.5rem 5rem;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -10%, #1c3d6b40, transparent),
+    radial-gradient(ellipse 900px 500px at 100% 10%, #24457a2e, transparent),
+    var(--ink);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Visible, deliberate focus ring everywhere — this IS the theme of the page */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.app {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  margin-bottom: 3rem;
+}
+
+.app-eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  margin: 0 0 0.75rem;
+}
+
+.app-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+.app-title-accent {
+  color: var(--scratch);
+}
+
+.app-lede {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 56ch;
+  margin: 0;
+}
+
+.app-lede code {
+  font-family: var(--font-display);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--scratch);
+}
+
+/* ---------- Two-lane comparison layout ---------- */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 760px) {
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lane {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.lane-scratch {
+  border-top: 3px solid var(--scratch);
+}
+
+.lane-shadcn {
+  border-top: 3px solid var(--shadcn);
+}
+
+.lane-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+}
+
+.lane-tag {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+}
+
+.lane-eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  margin: 0 0 0.2rem;
+}
+
+.lane-scratch .lane-eyebrow {
+  color: var(--scratch);
+}
+
+.lane-shadcn .lane-eyebrow {
+  color: var(--shadcn);
+}
+
+.lane-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* ---------- Component blocks ---------- */
+.component-block {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.lane > .component-block:first-of-type {
+  padding-top: 0;
+  border-top: none;
+}
+
+.component-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.component-block-head h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Live ARIA state badge — the signature element */
+.state-badge {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+  display: inline-flex;
+  gap: 0.15rem;
+  white-space: nowrap;
+}
+
+.state-badge-attr {
+  color: var(--focus);
+}
+
+.state-badge-eq {
+  color: var(--text-faint);
+}
+
+.state-badge-value {
+  color: var(--scratch);
+}
+
+.lane-shadcn .state-badge-value {
+  color: var(--shadcn);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 7px;
+  padding: 0.55rem 1rem;
+  border: 1px solid transparent;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-scratch {
+  background: var(--scratch-dim);
+  border-color: var(--scratch);
+  color: var(--scratch);
+}
+
+.btn-scratch:hover {
+  filter: brightness(1.2);
+}
+
+.btn-shadcn {
+  background: var(--shadcn-dim);
+  border-color: var(--shadcn);
+  color: var(--shadcn);
+}
+
+.btn-shadcn:hover {
+  filter: brightness(1.2);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Modal (scratch) ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 10, 0.7);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  animation: fade-in 0.15s ease;
+}
+
+.modal-panel {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: rise-in 0.18s ease;
+}
+
+.modal-title {
+  margin-top: 0;
+  font-family: var(--font-display);
+  color: var(--scratch);
+}
+
+.modal-close {
+  margin-top: 1rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 7px;
+  padding: 0.45rem 0.9rem;
+}
+
+.modal-close:hover {
+  border-color: var(--text-faint);
+}
+
+/* ---------- Dialog (shadcn) ---------- */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 10, 0.7);
+  backdrop-filter: blur(2px);
+  z-index: 50;
+}
+
+.dialog-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  max-width: 420px;
+  width: 90%;
+  z-index: 51;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.dialog-title {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  color: var(--shadcn);
+}
+
+.dialog-description {
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  line-height: 1;
+}
+
+.dialog-close:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+/* ---------- Tabs (shared shape, lane colors the accent) ---------- */
+.tabs-list {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+
+.tab {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 0.5rem 0.85rem;
+  border-bottom: 2px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.12s ease;
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+.lane-scratch .tab[aria-selected="true"] {
+  color: var(--scratch);
+  border-bottom-color: var(--scratch);
+}
+
+.lane-shadcn .tab[data-state="active"] {
+  color: var(--shadcn);
+  border-bottom-color: var(--shadcn);
+}
+
+.tab-panel {
+  padding: 0.25rem 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+/* ---------- Disclosure (scratch) ---------- */
+.disclosure-trigger {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.disclosure-icon {
+  display: inline-block;
+  color: var(--scratch);
+  transition: transform 0.15s ease;
+  font-size: 0.7rem;
+}
+
+.disclosure-icon.open {
+  transform: rotate(90deg);
+}
+
+.disclosure-content {
+  padding: 0.5rem 0 0.25rem 1.4rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* ---------- Footer ---------- */
+.app-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-soft);
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+
+kbd {
+  font-family: var(--font-display);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.8em;
+  color: var(--text-muted);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
