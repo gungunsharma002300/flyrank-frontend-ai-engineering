@@ -1,0 +1,13 @@
+FE-06 FINAL — GEMINI FREE MODE
+=============================
+
+Default API route: /api/chat-free
+Provider: Google Gemini 2.5 Flash
+Streaming: AI SDK streamText + toUIMessageStreamResponse
+
+Required local secret:
+GOOGLE_GENERATIVE_AI_API_KEY=your_key_here
+
+Get a key from Google AI Studio. Do not commit the key.
+
+Original assignment Claude route remains at /api/chat and is not deleted.
