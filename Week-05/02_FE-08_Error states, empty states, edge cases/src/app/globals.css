@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+:root {
+  --main: #0C447C;
+  --text: #1A1A18;
+  --bg: #FAFAF8;
+  --accent: #D85A30;
+  --surface: #ffffff;
+  --border: #E5E3DA;
+  --muted: #5F5E5A;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Space Grotesk', -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
