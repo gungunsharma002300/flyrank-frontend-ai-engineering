@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buttons with a Brain — Motion &amp; State Micro-interactions</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <main class="stage">
+
+    <header class="stage-header">
+      <p class="eyebrow">FE-AA1 · Frontend AI Engineering</p>
+      <h1>Buttons with a brain</h1>
+      <p class="lede">Two buttons, one shared motion language. Each carries its own state out loud — idle, focused, working, done, or wrong — so the interface never leaves you guessing.</p>
+    </header>
+
+    <section class="panel">
+
+      <div class="demo-row">
+
+        <div class="demo-item">
+          <p class="demo-label">AI chat</p>
+          <button class="brain-btn" id="send-btn" data-state="idle" data-variant="primary">
+            <span class="btn-face" data-face="idle">
+              <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2.5 10L17.5 3L11 17.5L9 11L2.5 10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              <span>Send message</span>
+            </span>
+            <span class="btn-face" data-face="loading">
+              <svg class="icon spinner" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="35 12"/></svg>
+              <span>Sending</span>
+            </span>
+            <span class="btn-face" data-face="success">
+              <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path class="check-path" d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Sent</span>
+            </span>
+            <span class="btn-face" data-face="error">
+              <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 6V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="14" r="1" fill="currentColor"/></svg>
+              <span>Retry</span>
+            </span>
+          </button>
+          <p class="demo-hint">Fires a fake request with a random delay and a 20% failure rate.</p>
+        </div>
+
+        <div class="demo-item">
+          <p class="demo-label">Document editor</p>
+          <button class="brain-btn" id="save-btn" data-state="idle" data-variant="ghost">
+            <span class="btn-face" data-face="idle">
+              <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 3.5H14.5L16.5 5.5V16.5H4V3.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 3.5V8H13V3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Save</span>
+            </span>
+            <span class="btn-face" data-face="loading">
+              <svg class="icon spinner" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="35 12"/></svg>
+              <span>Saving</span>
+            </span>
+            <span class="btn-face" data-face="success">
+              <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path class="check-path" d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Saved</span>
+            </span>
+            <span class="btn-face" data-face="error">
+              <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 6V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="14" r="1" fill="currentColor"/></svg>
+              <span>Retry</span>
+            </span>
+          </button>
+          <p class="demo-hint">Same states, same timing — proof it's a system, not one-off animation.</p>
+        </div>
+
+      </div>
+
+      <div class="controls">
+        <p class="controls-label">Force outcome</p>
+        <div class="control-buttons" role="group" aria-label="Force outcome for next click">
+          <button class="chip" data-force="random" aria-pressed="true">Random (20% fail)</button>
+          <button class="chip" data-force="success" aria-pressed="false">Always succeed</button>
+          <button class="chip" data-force="error" aria-pressed="false">Always fail</button>
+        </div>
+
+        <label class="switch-row">
+          <span>Disable buttons</span>
+          <span class="switch">
+            <input type="checkbox" id="disable-toggle">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </span>
+        </label>
+
+        <label class="switch-row">
+          <span>Simulate reduced motion</span>
+          <span class="switch">
+            <input type="checkbox" id="motion-toggle">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </span>
+        </label>
+      </div>
+
+    </section>
+
+    <section class="notes">
+      <h2>Duration &amp; easing notes</h2>
+      <ul>
+        <li><strong>Content swap</strong> (idle ↔ loading ↔ success ↔ error): 200ms, <code>cubic-bezier(0.4, 0, 0.2, 1)</code> — a quick, decisive ease-out. States don't linger mid-fade; a button either clearly is something or is becoming the next thing.</li>
+        <li><strong>Width reflow</strong>: 260ms on the same curve, measured via FLIP so the pill resizes to fit new content without ever clipping a label.</li>
+        <li><strong>Loading spinner</strong>: 800ms linear, infinite — linear because a spinner promising "in progress" shouldn't ease, or it reads as slowing down.</li>
+        <li><strong>Success check</strong>: a 260ms stroke draw, <code>cubic-bezier(0.65, 0, 0.35, 1)</code>, so the mark appears to be drawn rather than switched on.</li>
+        <li><strong>Error shake</strong>: 380ms, four-keyframe horizontal displacement — short and physical, like a door that won't open, then settles.</li>
+        <li><strong>Reduced motion</strong>: every duration above collapses to a 90ms opacity crossfade. Width still resizes (no animation, just the new size), the spinner becomes a static pulsing dot instead of a rotation, and the shake is dropped entirely — the state itself (icon + label + color) still changes, so nothing about the feedback is lost, only the choreography.</li>
+      </ul>
+    </section>
+
+  </main>
+
+<script src="script.js"></script>
+</body>
+</html>

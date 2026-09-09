@@ -1,0 +1,92 @@
+body {
+  font-family: system-ui, sans-serif;
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 0 20px;
+  color: #1a1a1a;
+  background: #fafafa;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+section {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 40px;
+  margin-bottom: 14px;
+}
+
+.chat-message {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #f0f1f3;
+}
+
+.chat-message--error {
+  background: #fdecea;
+  color: #7a1f1a;
+}
+
+.tool-call-chip {
+  font-size: 13px;
+  color: #555;
+}
+
+.tool-result {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: #eef3ff;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.tool-result--error {
+  background: #fdecea;
+  color: #7a1f1a;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+input,
+textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font: inherit;
+}
+
+button {
+  align-self: flex-start;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #2f6feb;
+  color: #fff;
+  cursor: pointer;
+}
+
+[role="alert"] {
+  color: #b3261e;
+  font-size: 13px;
+  margin: 0;
+}
