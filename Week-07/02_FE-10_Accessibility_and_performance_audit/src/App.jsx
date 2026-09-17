@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import './App.css';
 import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion';
 import { useScrollProgress } from './hooks/useScrollProgress';
@@ -18,8 +18,20 @@ export default function App() {
   const scrollProgress = useScrollProgress();
   const [featuresRef, featuresInView] = useInView({ rootMargin: '-80px', threshold: 0.1 });
 
+  // Let the browser paint the (fast, lightweight) hero text and layout
+  // first, then fetch/parse the heavy three.js chunk. This keeps the
+  // large bundle's work off the critical rendering path instead of
+  // competing with first paint for the main thread.
+  const [readyFor3D, setReadyFor3D] = useState(false);
+  useEffect(() => {
+    const schedule = window.requestIdleCallback || ((cb) => setTimeout(cb, 200));
+    const cancel = window.cancelIdleCallback || clearTimeout;
+    const id = schedule(() => setReadyFor3D(true));
+    return () => cancel(id);
+  }, []);
+
   const theme = THEMES[themeIndex];
-  const shouldRender3D = !prefersReducedMotion || forceEnable3D;
+  const shouldRender3D = readyFor3D && (!prefersReducedMotion || forceEnable3D);
 
   const handleAdvanceTheme = useCallback(() => {
     setThemeIndex((i) => (i + 1) % THEMES.length);
