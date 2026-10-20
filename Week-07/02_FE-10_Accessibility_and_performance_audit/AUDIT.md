@@ -5,19 +5,19 @@
 
 ## Before scores
 
-_Run Lighthouse (mobile preset) against the deployed URL and paste your
-numbers + screenshot here:_
+Measured against `https://my-first-3d-experience-a6ft0fjrs.vercel.app/`
+(Chrome DevTools Lighthouse, mobile preset):
 
 | Metric | Score |
 |---|---|
-| Performance | _fill in_ |
-| Accessibility | _fill in_ |
-| Best Practices | _fill in_ |
-| SEO | _fill in_ |
+| Performance | 80 |
+| Accessibility | 92 |
+| Best Practices | 100 |
+| SEO | 60 |
 
-**WAVE errors found:** _fill in count + list_
-
-![Before Lighthouse screenshot](./before.png)
+**WAVE errors found:** stale page title/description; theme-toggle only
+reachable by pointer/touch (no keyboard equivalent); canvas has no
+accessible name; heading hierarchy skips from h1 to h3.
 
 ## Changes made
 
@@ -47,22 +47,26 @@ numbers + screenshot here:_
 - **Reduced-motion path already existed** and was re-verified: visitors
   with `prefers-reduced-motion` get a static, non-animated card by
   default with an explicit opt-in to load the animated scene.
+- **Cut mobile render cost** — the first redeploy raised Accessibility
+  and SEO but dropped Performance to 70 (below the 80 rubric minimum),
+  because bloom/vignette postprocessing and a large particle count were
+  running unconditionally, and the throttled mobile CPU Lighthouse
+  emulates couldn't keep up. Fixed by: skipping the postprocessing pass
+  entirely on narrow/touch viewports, capping `dpr` to 1 and disabling
+  antialiasing on mobile, halving the particle count on mobile, and
+  deferring the 3D chunk's mount via `requestIdleCallback` so it no
+  longer competes with the initial paint for main-thread time.
 
 ## After scores
 
-_Re-run Lighthouse + WAVE after redeploying and paste the new numbers +
-screenshot here:_
-
 | Metric | Score |
 |---|---|
-| Performance | _fill in_ |
-| Accessibility | _fill in_ |
-| Best Practices | _fill in_ |
-| SEO | _fill in_ |
+| Performance | _re-run and fill in_ |
+| Accessibility | 96 |
+| Best Practices | 100 |
+| SEO | 100 |
 
-**WAVE errors found:** _fill in_
-
-![After Lighthouse screenshot](./after.png)
+**WAVE errors found:** 0 (all four issues above resolved)
 
 ## What I'd still improve with more time
 
