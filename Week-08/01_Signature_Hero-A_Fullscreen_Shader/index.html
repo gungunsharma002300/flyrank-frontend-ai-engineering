@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A hand-written GLSL fragment shader hero — slow, ink-like motion in a restrained copper-on-indigo palette, mouse-reactive and accessible."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>Signature Hero — Aurora Shader</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="aurora-canvas" aria-hidden="true"></canvas>
+
+      <header class="topbar">
+        <div class="topbar__brand">
+          <span class="topbar__logo" aria-hidden="true">◆</span>
+          <span>FlyRank AI Internship</span>
+        </div>
+        <div class="topbar__right">
+          <span class="topbar__badge">FE-AA3 · Week 8</span>
+          <div class="topbar__author">
+            <span class="topbar__author-avatar" aria-hidden="true">GS</span>
+            <span class="topbar__author-text">
+              <strong>Gungun Sharma</strong>
+              <em>BCA · Frontend AI Engineering Intern</em>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <main class="hero">
+        <p class="eyebrow">Frontend AI Engineering · Week 8</p>
+        <h1>Signature Hero</h1>
+        <p class="hero__lede">
+          Nothing behind this headline is a photo, a video, or a template — it's a shader I wrote
+          myself, line by line, to understand what actually happens to a pixel between "code" and
+          "color." It moves on its own, and quietly follows wherever you point.
+        </p>
+        <p class="hero__byline">Gungun Sharma — BCA, AI Engineering Intern</p>
+
+        <button type="button" id="reduced-motion-toggle" class="btn btn--ghost" hidden>
+          Enable the animated version
+        </button>
+      </main>
+
+      <footer class="footer">
+        <span>Built for FlyRank AI Internship — FE-AA3</span>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

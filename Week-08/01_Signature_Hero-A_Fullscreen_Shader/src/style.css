@@ -1,0 +1,237 @@
+:root {
+  --text: #f2f0f7;
+  --text-dim: rgba(242, 240, 247, 0.72);
+  --text-faint: rgba(242, 240, 247, 0.5);
+  --border: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.24);
+  --panel: rgba(10, 8, 18, 0.42);
+  --sans: 'Sora', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font: 15px/1.6 var(--sans);
+  color: var(--text);
+  background: #06040c;
+  overflow-x: hidden;
+}
+
+#app {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The shader canvas sits fixed behind everything, full viewport. */
+#aurora-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+}
+
+/* ---------- Topbar ---------- */
+.topbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(6, 4, 12, 0.35);
+  backdrop-filter: blur(10px) saturate(140%);
+}
+.topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.topbar__logo {
+  background: linear-gradient(135deg, #c9855a, #e9c9a2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 18px;
+}
+.topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.topbar__badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.topbar__author {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 12px 5px 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: rgba(10, 8, 18, 0.5);
+}
+.topbar__author-avatar {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  color: #0a0a0f;
+  background: linear-gradient(135deg, #c9855a, #e9c9a2);
+  flex-shrink: 0;
+}
+.topbar__author-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  text-align: left;
+}
+.topbar__author-text strong {
+  font-size: 12px;
+  color: #fff;
+  font-weight: 600;
+}
+.topbar__author-text em {
+  font-size: 10.5px;
+  font-style: normal;
+  color: var(--text-faint);
+}
+@media (max-width: 560px) {
+  .topbar { padding: 12px 16px; }
+  .topbar__badge { display: none; }
+  .topbar__author-text { display: none; }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  gap: 6px;
+}
+
+/* Contrast guard: a soft radial vignette behind the text block so the
+   headline stays readable no matter what colors the aurora is
+   currently painting underneath it. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: -10% -6%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 60% 55% at 50% 45%,
+    rgba(4, 3, 10, 0.55) 0%,
+    rgba(4, 3, 10, 0.28) 45%,
+    transparent 75%
+  );
+  pointer-events: none;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #e9c9a2;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgba(201, 133, 90, 0.14);
+  backdrop-filter: blur(6px);
+}
+.hero h1 {
+  font-size: clamp(42px, 8vw, 86px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0 0 18px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.55);
+}
+.hero__lede {
+  color: var(--text-dim);
+  font-size: 17px;
+  max-width: 580px;
+  margin: 0 auto;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+}
+.hero__byline {
+  margin-top: 22px;
+  font-size: 13.5px;
+  color: var(--text-faint);
+  font-family: var(--mono);
+}
+.hero__byline strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.btn {
+  margin-top: 22px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  padding: 9px 20px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text);
+  background: rgba(10, 8, 18, 0.55);
+  backdrop-filter: blur(6px);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.btn:hover {
+  border-color: #c9855a;
+  background: rgba(201, 133, 90, 0.16);
+}
+.btn:focus-visible {
+  outline: 2px solid #c9855a;
+  outline-offset: 2px;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  position: relative;
+  z-index: 2;
+  padding: 18px 28px;
+  border-top: 1px solid var(--border);
+  color: var(--text-faint);
+  font-size: 12px;
+  text-align: center;
+  background: rgba(6, 4, 12, 0.35);
+  backdrop-filter: blur(10px);
+}
